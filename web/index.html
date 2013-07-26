@@ -1,0 +1,57 @@
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+function load()
+{
+    n=document.getElementById('message');
+    first=n.firstChild;
+    var nextItem=first;
+    while(nextItem)
+    {
+            if(nextItem.nodeName=='A')
+            {    
+                nextItem.setAttribute('onclick','chkvalidity(this)')
+            }
+            nextItem = nextItem.nextSibling;
+    }
+}
+function chkvalidity(x)
+{
+    if(x!=x.innerHTML)
+    {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("POST","./validate.jsp?href="+x.href,true);
+        xmlhttp.send();
+        xmlhttp.onreadystatechange = function()
+        {
+                if(xmlhttp.readyState==4 && xmlhttp.status==200)
+                {
+                    alert(xmlhttp.responseText);
+                }
+        }
+        var r=confirm("Do you want to continue to the site??");
+        if(r==false)
+        {
+            x.href=null;
+            x.target=null;
+        }
+    }
+}
+</script> 
+</head>
+<body onload="load()">
+<div id="message" style="border:black 1px solid;padding:10px;">
+ Inside the message div..
+ <br/><br/>
+<a id="a" href="http://www.actualtarget.com/">VisibleLink.html</a>
+<br/><br/>
+End of message...
+</div>
+</body>
+</html>
+
